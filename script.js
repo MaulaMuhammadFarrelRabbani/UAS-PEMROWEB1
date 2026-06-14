@@ -1,10 +1,4 @@
-/* ============================================
-   CREAMO. - Main JavaScript v2.0
-   Enhanced interactions & animations
-   ============================================ */
-
 document.addEventListener('DOMContentLoaded', () => {
-  // ---- Navbar scroll effect with smooth transition ----
   const navbar = document.getElementById('navbar');
   let lastScroll = 0;
   
@@ -16,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
   }
 
-  // ---- Mobile hamburger menu ----
   const hamburger = document.getElementById('navHamburger');
   const navLinks = document.getElementById('navLinks');
 
@@ -24,11 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
     hamburger.addEventListener('click', () => {
       hamburger.classList.toggle('active');
       navLinks.classList.toggle('active');
-      // Prevent body scroll when menu is open
       document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
     });
 
-    // Close menu when clicking a link
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         hamburger.classList.remove('active');
@@ -37,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Close menu on outside click
     document.addEventListener('click', (e) => {
       if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
         hamburger.classList.remove('active');
@@ -47,7 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ---- Scroll animations with stagger (Intersection Observer) ----
   const observerOptions = {
     root: null,
     rootMargin: '0px 0px -50px 0px',
@@ -59,7 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        // Add small stagger delay based on DOM order within parent
         const siblings = entry.target.parentElement ? 
           Array.from(entry.target.parentElement.querySelectorAll('.animate-on-scroll')) : [];
         const index = siblings.indexOf(entry.target);
@@ -77,10 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(el);
   });
 
-  // ---- Order form handling with enhanced feedback ----
   const orderForm = document.getElementById('orderForm');
   if (orderForm) {
-    // Add focus animations
     orderForm.querySelectorAll('input, select, textarea').forEach(input => {
       input.addEventListener('focus', () => {
         input.parentElement.classList.add('focused');
@@ -103,13 +89,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       let isValid = true;
 
-      // Reset styles
       [fullName, email, whatsapp, serviceType].forEach(input => {
         input.style.borderColor = '';
         input.style.boxShadow = '';
       });
 
-      // Validate
       if (!fullName.value.trim()) {
         setInvalid(fullName);
         isValid = false;
@@ -131,7 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (isValid) {
-        // Add loading state to button
         const originalText = submitBtn.innerHTML;
         submitBtn.innerHTML = `
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 1s linear infinite;">
@@ -142,23 +125,19 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.disabled = true;
         submitBtn.style.opacity = '0.7';
 
-        // Simulate sending (500ms delay for realism)
         setTimeout(() => {
           submitBtn.innerHTML = originalText;
           submitBtn.disabled = false;
           submitBtn.style.opacity = '';
           
-          // Show success modal
           const modal = document.getElementById('successModal');
           if (modal) {
             modal.classList.add('active');
           }
 
-          // Reset form
           orderForm.reset();
         }, 800);
       } else {
-        // Shake the form slightly on validation error
         orderForm.style.animation = 'shake 0.4s ease';
         setTimeout(() => {
           orderForm.style.animation = '';
@@ -167,7 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ---- Smooth scroll for anchor links ----
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
       const target = document.querySelector(this.getAttribute('href'));
@@ -184,7 +162,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ---- Add parallax-like effect to hero image ----
   const heroImage = document.querySelector('.hero-image');
   if (heroImage) {
     window.addEventListener('scroll', () => {
@@ -196,7 +173,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// ---- Helper functions ----
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
@@ -206,7 +182,6 @@ function setInvalid(input) {
   input.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
 }
 
-// ---- Modal functions (global for onclick) ----
 function closeModal() {
   const modal = document.getElementById('successModal');
   if (modal) {
@@ -215,7 +190,6 @@ function closeModal() {
   window.location.href = 'index.html';
 }
 
-// Close modal on overlay click
 document.addEventListener('click', (e) => {
   const modal = document.getElementById('successModal');
   if (modal && e.target === modal) {
@@ -223,7 +197,6 @@ document.addEventListener('click', (e) => {
   }
 });
 
-// Close modal on Escape key
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     const modal = document.getElementById('successModal');
@@ -233,7 +206,6 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// ---- Add CSS animation for spinner ----
 const style = document.createElement('style');
 style.textContent = `
   @keyframes spin {
